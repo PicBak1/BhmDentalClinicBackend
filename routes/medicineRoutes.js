@@ -3,6 +3,8 @@ const controller = require('../controllers/medicineController');
 
 const router = express.Router();
 router.route('/').get(controller.findAll).post(controller.create);
+router.post('/:id/restock', controller.restock);
+router.post('/:id/dispense', controller.dispense);
 router.route('/:id').get(controller.findById).patch(controller.update).delete(controller.remove);
 
 module.exports = router;

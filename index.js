@@ -10,7 +10,21 @@ const appointmentRoutes = require("./routes/appointmentRoutes")
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    const isLocalFrontend = !origin || origin === "null" || /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin);
+    if (isLocalFrontend) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
+app.options("*", cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/health", (req, res) => res.json({ status: "ok" }));

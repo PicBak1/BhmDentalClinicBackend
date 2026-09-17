@@ -11,13 +11,21 @@ module.exports = (sequelize, DataTypes) => {
     sex: DataTypes.STRING,
     age: { type: DataTypes.INTEGER, validate: { min: 0 } },
     contact: DataTypes.STRING,
+    email: DataTypes.STRING,
     lastVisit: DataTypes.DATEONLY,
     diagnosis: DataTypes.TEXT,
     treatment: DataTypes.TEXT,
     amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false, defaultValue: 0, validate: { min: 0 } },
     amountPaid: { type: DataTypes.DECIMAL(10, 2), allowNull: false, defaultValue: 0, validate: { min: 0 } },
     balance: { type: DataTypes.DECIMAL(10, 2), allowNull: false, defaultValue: 0 },
-    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'active' }
+    status: { type: DataTypes.STRING, allowNull: false, defaultValue: 'active' },
+    patientId: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        const id = this.getDataValue('id');
+        return id ? `BMH-${String(id).padStart(3, '0')}` : null;
+      }
+    }
   }, {
     sequelize,
     modelName: 'Patient',

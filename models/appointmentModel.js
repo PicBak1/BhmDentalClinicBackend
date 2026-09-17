@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Appointment.init({
     appointmentId: { type: DataTypes.INTEGER, allowNull: false, autoIncrement: true, primaryKey: true },
+    date: { type: DataTypes.DATEONLY, allowNull: false },
     time: { type: DataTypes.TIME, allowNull: false },
     patient: { type: DataTypes.STRING, allowNull: false },
     service: { type: DataTypes.STRING, allowNull: false },
